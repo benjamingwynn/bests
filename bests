@@ -1,0 +1,3 @@
+#!/bin/bash
+here=$(realpath "$(dirname "$0")")
+node --enable-source-maps --import $here/register.mjs $@

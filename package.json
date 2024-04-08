@@ -1,0 +1,38 @@
+{
+	"name": "bests",
+	"version": "0.0.0",
+	"description": "Benjamin's ESbuild TypeScript loader for node.js",
+	"main": "register.mjs",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"bin": {
+		"bests": "bests"
+	},
+	"keywords": [
+		"typescript",
+		"esbuild",
+		"runner",
+		"module",
+		"register",
+		"tsx",
+		"ts-node"
+	],
+	"author": "Benjamin Gwynn <benjamin@benjamingwynn.com>",
+	"license": "MIT",
+	"engineStrict": true,
+	"engines": {
+		"node": ">=18"
+	},
+	"os": [
+		"!win32"
+	],
+	"dependencies": {
+		"esbuild": "^0.20.2",
+		"get-tsconfig": "^4.7.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/benjamingwynn/bests.git"
+	}
+}
