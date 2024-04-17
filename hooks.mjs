@@ -55,11 +55,19 @@ export async function resolve(specifier, context, nextResolve) {
 	// if we're loading from somewhere
 	if (context?.parentURL?.startsWith("file://")) {
 		const parentPath = url.fileURLToPath(context.parentURL)
+
+		// if explicitly not a TS file and in node modules, do nothing
+		if (path.extname(parentPath) !== ".ts" && parentPath.includes("/node_modules/")) {
+			debug("[*!*]", "ignoring:", parentPath)
+			return nextResolve(specifier)
+		}
+
 		const ts = findTS(parentPath)
-		debug("[...]", context.parentURL, "is trying to load", specifier, "@", ts.root)
 
 		// and we're loading from a typescript location
 		if (ts) {
+			debug("[...]", context.parentURL, "is trying to load", specifier, "@", ts.root)
+
 			const {tsconfig, root} = ts
 
 			// resolves `paths` from tsconfig to ts files for the loader
@@ -109,6 +117,8 @@ export async function resolve(specifier, context, nextResolve) {
 					debug("[[[!!!]]] Cannot access", specifier2, err)
 				}
 			}
+		} else {
+			debug("[!!!]", "found no ts root for this ts file:", parentPath)
 		}
 	}
 
