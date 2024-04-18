@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"description": "Benjamin's ESbuild TypeScript loader for node.js",
 	"main": "register.mjs",
+	"type": "module",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
