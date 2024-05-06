@@ -1,6 +1,6 @@
 {
 	"name": "bests",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Benjamin's ESbuild TypeScript loader for node.js",
 	"main": "register.mjs",
 	"type": "module",
