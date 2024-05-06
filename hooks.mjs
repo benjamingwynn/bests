@@ -74,9 +74,6 @@ export async function resolve(specifier, context, nextResolve) {
 			// baseURL is intentionally ignored, don't use this option.
 			if (tsconfig.compilerOptions.paths) {
 				for (const [importName, sources] of Object.entries(tsconfig.compilerOptions.paths)) {
-					// TODO: add importing for `/*` here
-					// TODO: add importing for `/*` here
-					// TODO: add importing for `/*` here
 					if (specifier === importName) {
 						for (const source of sources) {
 							const maybePath = path.join(root, source)
@@ -87,12 +84,34 @@ export async function resolve(specifier, context, nextResolve) {
 								continue
 							}
 
-							// debug("test access", maybePath)
 							const asUrl = url.pathToFileURL(maybePath).href
-							//await tick()
 							return {
 								shortCircuit: true,
 								url: asUrl,
+							}
+						}
+					} else if (importName.endsWith("/*")) {
+						const here = importName.substring(0, importName.length - 1)
+						if (specifier.startsWith(here)) {
+							const rel = path.relative(here, specifier)
+
+							for (const source of sources) {
+								const maybePath = path.join(root, source.substring(0, source.length - 1), rel)
+
+								if (!source.endsWith("/*")) throw new Error("Expected source to end in /*")
+
+								try {
+									await fsp.access(maybePath, fs.constants.ROK)
+								} catch (err) {
+									debug("[!!!] error accessing", maybePath, err)
+									continue
+								}
+
+								const asUrl = url.pathToFileURL(maybePath).href
+								return {
+									shortCircuit: true,
+									url: asUrl,
+								}
 							}
 						}
 					}
