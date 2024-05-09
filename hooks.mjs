@@ -32,10 +32,10 @@ function findTS(specifier) {
 
 	let root = path.join(ts.path, "..")
 	if (ts.config.compilerOptions.rootDirs) {
-		throw new Error("compilerOptions.rootDirs is not supported/implemented")
+		console.warn("[warn] compilerOptions.rootDirs is not supported/implemented")
 	}
 	if (ts.config.compilerOptions.baseUrl) {
-		throw new Error("compilerOptions.baseUrl is not supported/implemented")
+		console.warn('[warn] compilerOptions.baseUrl is not supported/implemented. @ "' + ts.path + '" from "' + specifier + '"')
 	}
 	if (ts.config.compilerOptions.rootDir) {
 		root = path.join(root, ts.config.compilerOptions.rootDir)
