@@ -153,7 +153,11 @@ export async function load(resolvedUrl, context, nextLoad) {
 		if (path.extname(resolvedPath) === ".ts") {
 			debug("transforming ts file:", resolvedPath, "...")
 			// debug(">>>>> OVERRIDE", resolvedPath)
-			const {tsconfig} = findTS(resolvedPath)
+			const tsRoot = findTS(resolvedPath)
+			const tsconfig = tsRoot ? tsRoot.tsconfig : undefined
+			if (!tsconfig) {
+				console.warn("[warn] the following TS file has no associated tsconfig:", resolvedPath)
+			}
 
 			const buffer = await fsp.readFile(resolvedPath)
 			const output = await esbuild.transform(buffer, {
