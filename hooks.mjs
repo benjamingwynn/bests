@@ -161,7 +161,7 @@ export async function load(resolvedUrl, context, nextLoad) {
 
 			const buffer = await fsp.readFile(resolvedPath)
 			const output = await esbuild.transform(buffer, {
-				sourcemap: process.execArgv.includes("--enable-source-maps") ? "inline" : false,
+				sourcemap: "inline",
 				tsconfigRaw: tsconfig,
 				sourcefile: resolvedPath,
 				platform: "node",
